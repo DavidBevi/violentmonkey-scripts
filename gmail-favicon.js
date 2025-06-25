@@ -2,6 +2,7 @@
 // @name         Gmail Favicon Replacement Persistent with Badge
 // @match        *://mail.google.com/*
 // @grant        none
+// @author       DavidBevi
 // ==/UserScript==
 
 (function () {
