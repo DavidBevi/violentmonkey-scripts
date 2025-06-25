@@ -2,6 +2,7 @@
 // @name         Beeper Favicon Force Replacement
 // @match        *://chat.beeper.com/*
 // @grant        none
+// @author       DavidBevi
 // ==/UserScript==
 
 (function () {
