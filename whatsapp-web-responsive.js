@@ -13,20 +13,27 @@
     style.innerHTML = `
 /*#########################################################################################
 #  search with    document.querySelector('')                                              #
-#  PARENT         #app>div>div>div                                                        #
-#  TOOLBAR        #app>div>div>div>header {                                               #
+#  GRANPA         #app>div>div:has(div>header) {width: 100vw;}                            #
+#  DAD            #app>div>div>div:has(header) {min-width: fit-content;}                  #
+#  SIDEBAR        #app>div>div>div>header {                                               #
 #  CHATLIST       #app>div>div>div>div:has(header>div>div>h1)                             #
-#  CONVO          #app>div>div>div>div:has(div>header)                                    #
-#  SPLASH         #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])           #
+#  CHAT           #app>div>div>div>div:has(div>header)                                    #
+#  SPLASHSCREEN   #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])           #
 #########################################################################################*/
 
 @media (max-width: 747px) {
- /* 𝐏𝐀𝐑𝐄𝐍𝐓 */
-    #app>div>div>div {display:flex!important; overflow:hidden!important;}
- /* 𝐒𝐏𝐋𝐀𝐒𝐇 - 𝐇𝐈𝐃𝐄 */
+ /* GRANPA - cap width */
+    #app>div>div:has(div>header) {width: 100vw;}
+ /* DAD - cap width */
+    #app>div>div>div:has(header) {
+        display: flex! important;
+        overflow: hidden! important;
+        min-width: fit-content !important;
+    }
+ /* SPLASHSCREEN - hide */
     #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"]) {max-width: 0%;}
- /* 𝐓𝐎𝐎𝐋𝐁𝐀𝐑 - 𝐇𝐈𝐃𝐄 */
-    #app>div>div>div>header {
+ /* SIDEBAR - hide */
+    #app>div>div>div>header, #app>div>div>div>header * {
         flex: 0 0 0 !important;
         width: 0 !important;
         max-width: 0 !important;
@@ -36,19 +43,22 @@
         border: 0 !important;
         overflow: hidden !important;
     }
- /* 𝐂𝐇𝐀𝐓𝐋𝐈𝐒𝐓 - 𝐅𝐈𝐋𝐋 (𝐠𝐢𝐯𝐞 𝐫𝐨𝐨𝐦 𝐭𝐨 𝐜𝐨𝐧𝐯𝐨) */
+ /* CHATLIST - fill space (when avaliable) */
     #app>div>div>div>div:has(header>div>div>h1){
         flex: 1 1 100% !important;
         max-width: none !important;
         min-width: 0 !important;
+        overflow: hidden !important;
     }
- /* 𝐂𝐎𝐍𝐕𝐎 - 𝐅𝐈𝐋𝐋 (𝐭𝐚𝐤𝐞 𝐩𝐫𝐢𝐨𝐫𝐢𝐭𝐲 𝐨𝐯𝐞𝐫 𝐜𝐡𝐚𝐭𝐥𝐢𝐬𝐭) */
+ /* CHAT - fill space (priority over chatlist) */
     #app>div>div>div>div:has(div>header){
         flex: 0 0 100% !important;
         max-width: 100% !important;
         min-width: 0% !important;
+        overflow: hidden! important;
     }
 } /* ------------------------------------------------------------------------------------ */
+
 `;
     document.head.appendChild(style);
   }
