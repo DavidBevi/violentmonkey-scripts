@@ -17,24 +17,30 @@
   function injectCSS() {
     const style = document.createElement('style');
     style.innerHTML = `
-/*#########################################################################################
-#  search with    document.querySelector('')                                              #
-#  GRANPA         #app>div>div:has(div>header) {width: 100vw;}                            #
-#  DAD            #app>div>div>div:has(header) {min-width: fit-content;}                  #
-#  SIDEBAR        #app>div>div>div>header {                                               #
-#  CHATLIST       #app>div>div>div>div:has(header>div>div>h1)                             #
-#  CHAT           #app>div>div>div>div:has(div>header)                                    #
-#  SPLASHSCREEN   #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])           #
-#########################################################################################*/
+/*#######################################################################################
+#  ELEMENTS            CSS selectors                                                    #
+#---------------------------------------------------------------------------------------#
+#  CONTAINER           #app>div>div>div:has(header) {min-width: fit-content;}           #
+#    SIDEBAR           #app>div>div>div>header {                                        #
+#    SPLASHSCREEN      #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])    #
+#    LIST-OF-CHATS     #app>div>div>div>div:has(header>div>div>h1)                      #
+#      CHAT            #app>div>div>div>div:has(div>header)                             #
+#        CHAT-HEADER   #app>div>div>div>div>div>header                                  #
+#        CHAT-CONTENT  #main>div>div>div>div                                            #
+#        CHAT-FOOTER   #main>footer                                                     #
+#######################################################################################*/
 
 @media (max-width: 747px) {
-    #app>div>div:has(div>header) {width: 100vw;}
+/*CONTAINER*/
     #app>div>div>div:has(header) {
         display: flex! important;
         overflow: hidden! important;
         min-width: fit-content !important;
+        max-width: 100vw;
     }
+/*SPLASHSCREEN*/
     #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"]) {max-width: 0%;}
+/*SIDEBAR*/
     #app>div>div>div>header, #app>div>div>div>header * {
         flex: 0 0 0 !important;
         width: 0 !important;
@@ -45,19 +51,23 @@
         border: 0 !important;
         overflow: hidden !important;
     }
+/*LIST-OF-CHATS*/
     #app>div>div>div>div:has(header>div>div>h1){
         flex: 1 1 100% !important;
         max-width: none !important;
         min-width: 0 !important;
         overflow: hidden !important;
     }
+/*CHAT-HEADER + CHAT-CONTENT + CHAT-FOOTER*/
+    #app>div>div>div>div>div>header, #main>div>div>div>div, #main>footer {max-width: 100vw;}
+/*CHAT*/
     #app>div>div>div>div:has(div>header){
         flex: 0 0 100% !important;
         max-width: 100% !important;
         min-width: 0% !important;
         overflow: hidden! important;
     }
-    /* Esc button created by js injection */
+/*ESC-BUTTON (via js injection)*/
     .esc-button {
         margin-left: -8px !important;
         padding-right: 16px !important;
