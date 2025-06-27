@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://web.whatsapp.com/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      DavidBevi
 // @description Improves WA web on narrow windows, displaying
 //              either chat-list or a conversation, one at a time.
@@ -28,19 +28,20 @@
 #        CHAT-HEADER   #app>div>div>div>div>div>header                                  #
 #        CHAT-CONTENT  #main>div>div>div>div                                            #
 #        CHAT-FOOTER   #main>footer                                                     #
+#          EMOJI-PANEL #expressions-panel-container>span>div                            #
 #######################################################################################*/
 
 @media (max-width: 747px) {
-/*CONTAINER*/
+/*𝐂𝐎𝐍𝐓𝐀𝐈𝐍𝐄𝐑*/
     #app>div>div>div:has(header) {
         display: flex! important;
         overflow: hidden! important;
         min-width: fit-content !important;
         max-width: 100vw;
     }
-/*SPLASHSCREEN*/
+/*𝐒𝐏𝐋𝐀𝐒𝐇𝐒𝐂𝐑𝐄𝐄𝐍*/
     #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"]) {max-width: 0%;}
-/*SIDEBAR*/
+/*𝐒𝐈𝐃𝐄𝐁𝐀𝐑*/
     #app>div>div>div>header, #app>div>div>div>header * {
         flex: 0 0 0 !important;
         width: 0 !important;
@@ -51,23 +52,25 @@
         border: 0 !important;
         overflow: hidden !important;
     }
-/*LIST-OF-CHATS*/
+/*𝐋𝐈𝐒𝐓-𝐎𝐅-𝐂𝐇𝐀𝐓𝐒*/
     #app>div>div>div>div:has(header>div>div>h1){
         flex: 1 1 100% !important;
         max-width: none !important;
         min-width: 0 !important;
         overflow: hidden !important;
     }
-/*CHAT-HEADER + CHAT-CONTENT + CHAT-FOOTER*/
+/*𝐂𝐇𝐀𝐓-𝐇𝐄𝐀𝐃𝐄𝐑 + 𝐂𝐇𝐀𝐓-𝐂𝐎𝐍𝐓𝐄𝐍𝐓 + 𝐂𝐇𝐀𝐓-𝐅𝐎𝐎𝐓𝐄𝐑*/
     #app>div>div>div>div>div>header, #main>div>div>div>div, #main>footer {max-width: 100vw;}
-/*CHAT*/
+/*𝐂𝐇𝐀𝐓*/
     #app>div>div>div>div:has(div>header){
         flex: 0 0 100% !important;
         max-width: 100% !important;
         min-width: 0% !important;
         overflow: hidden! important;
     }
-/*ESC-BUTTON (via js injection)*/
+/*𝐄𝐌𝐎𝐉𝐈-𝐏𝐀𝐍𝐄𝐋*/
+    #expressions-panel-container>span>div {left: 0px !important; max-width: 100% !important;}
+/*𝐄𝐒𝐂-𝐁𝐔𝐓𝐓𝐎𝐍 (via js injection)*/
     .esc-button {
         margin-left: -8px !important;
         padding-right: 16px !important;
@@ -105,7 +108,7 @@
 
       // SVG icon
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('viewBox', '0 0 52 52');
+      svg.setAttribute('viewBox', '0 0 56 56');
       svg.setAttribute('height', '24');
       svg.setAttribute('width', '24');
       svg.setAttribute('fill', 'currentColor');
