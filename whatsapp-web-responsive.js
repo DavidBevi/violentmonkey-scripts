@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://web.whatsapp.com/*
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      DavidBevi
 // @description Improves WA web on narrow windows, displaying
 //              either chat-list or a conversation, one at a time.
@@ -17,19 +17,23 @@
   function injectCSS() {
     const style = document.createElement('style');
     style.innerHTML = `
-/*#######################################################################################
-#  ELEMENTS            CSS selectors                                                    #
-#---------------------------------------------------------------------------------------#
-#  CONTAINER           #app>div>div>div:has(header) {min-width: fit-content;}           #
-#    SIDEBAR           #app>div>div>div>header {                                        #
-#    SPLASHSCREEN      #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])    #
-#    LIST-OF-CHATS     #app>div>div>div>div:has(header>div>div>h1)                      #
-#      CHAT            #app>div>div>div>div:has(div>header)                             #
-#        CHAT-HEADER   #app>div>div>div>div>div>header                                  #
-#        CHAT-CONTENT  #main>div>div>div>div                                            #
-#        CHAT-FOOTER   #main>footer                                                     #
-#          EMOJI-PANEL #expressions-panel-container>span>div                            #
-#######################################################################################*/
+/*#########################################################################################
+#  ELEMENTS              CSS selectors                                                    #
+#-----------------------------------------------------------------------------------------#
+#  CONTAINER             #app>div>div>div:has(header) {min-width: fit-content;}           #
+#    SIDEBAR             #app>div>div>div>header {                                        #
+#    SPLASHSCREEN        #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])    #
+#    LIST-OF-CHATS       #app>div>div>div>div:has(header>div>div>h1)                      #
+#      CHAT              #app>div>div>div>div:has(div>header)                             #
+#        CHAT-HEADER     #app>div>div>div>div>div>header                                  #
+#        CHAT-CONTENT    #main>div>div>div>div                                            #
+#          EMOJI-PANEL   #expressions-panel-container>span>div                            #
+#        CHAT-FOOTER     #main>footer                                                     #
+#        CHAT-INFO       #app>div>div>div>div:has(span>div>span>div>div>header)           #
+#        CHAT-MEDIA-ROLL #app>div>div>div>div:has(span>div>span>div>header)               #
+#        CHAT-MEDIA-SEND #app>div>div>div>div>div:has(span>div>div>div>div>div>input)     #
+#    CHAT-TABLIST        #side>div[role="tablist"]                                        #
+#########################################################################################*/
 
 @media (max-width: 747px) {
 /*𝐂𝐎𝐍𝐓𝐀𝐈𝐍𝐄𝐑*/
@@ -68,6 +72,13 @@
         min-width: 0% !important;
         overflow: hidden! important;
     }
+/*𝐂𝐇𝐀𝐓-𝐈𝐍𝐅𝐎 + 𝐂𝐇𝐀𝐓-𝐌𝐄𝐃𝐈𝐀-𝐒𝐄𝐍𝐃 + 𝐂𝐇𝐀𝐓-𝐌𝐄𝐃𝐈𝐀-𝐑𝐎𝐋𝐋*/
+    #app>div>div>div>div:has(span>div>span>div>div>header),
+    #app>div>div>div>div>div:has(span>div>div>div>div>div>input),
+    #app>div>div>div>div:has(span>div>span>div>header) {
+        position: absolute;
+        width: 99vw;
+    }
 /*𝐄𝐌𝐎𝐉𝐈-𝐏𝐀𝐍𝐄𝐋*/
     #expressions-panel-container>span>div {left: 0px !important; max-width: 100% !important;}
 /*𝐄𝐒𝐂-𝐁𝐔𝐓𝐓𝐎𝐍 (via js injection)*/
@@ -76,6 +87,9 @@
         padding-right: 16px !important;
     }
 }
+
+/*𝐎𝐏𝐓𝐈𝐎𝐍𝐀𝐋𝐒*/
+/*𝐂𝐇𝐀𝐓-𝐓𝐀𝐁𝐋𝐈𝐒𝐓*/ #side>div[role="tablist"] {visibility:hidden;height:0px;padding:0px;}
 `;
     document.head.appendChild(style);
   }
