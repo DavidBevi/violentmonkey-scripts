@@ -20,12 +20,12 @@
 /*#########################################################################################
 #  ELEMENTS              CSS selectors                                                    #
 #-----------------------------------------------------------------------------------------#
-#  CONTAINER             #app>div>div>div:has(header) {min-width: fit-content;}           #
+#  CONTAINER             #app>div>div>div:has(header)                                     #
 #    SIDEBAR             #app>div>div>div>header {                                        #
 #    SPLASHSCREEN        #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])    #
 #    LIST-OF-CHATS       #app>div>div>div>div:has(header>div>div>h1)                      #
 #      CHAT              #app>div>div>div>div:has(div>header)                             #
-#        CHAT-HEADER     #app>div>div>div>div>div>header                                  #
+#        CHAT-HEADER     #main>header                                                     #
 #        CHAT-CONTENT    #main>div>div>div>div                                            #
 #          EMOJI-PANEL   #expressions-panel-container>span>div                            #
 #        CHAT-FOOTER     #main>footer                                                     #
@@ -36,6 +36,8 @@
 #########################################################################################*/
 
 @media (max-width: 747px) {
+/*𝐌𝐀𝐈𝐍 + 𝐌𝐀𝐈𝐍>𝐃𝐈𝐕 cap width*/
+    #main, #main>div {max-width: 100vw !important; margin:0 !important; overflow-x:hidden;}
 /*𝐂𝐎𝐍𝐓𝐀𝐈𝐍𝐄𝐑*/
     #app>div>div>div:has(header) {
         display: flex! important;
@@ -56,16 +58,14 @@
         border: 0 !important;
         overflow: hidden !important;
     }
-/*𝐋𝐈𝐒𝐓-𝐎𝐅-𝐂𝐇𝐀𝐓𝐒*/
+/*𝐋𝐈𝐒𝐓-𝐎𝐅-𝐂𝐇𝐀𝐓𝐒 needed to hide when narrow*/
     #app>div>div>div>div:has(header>div>div>h1){
         flex: 1 1 100% !important;
         max-width: none !important;
         min-width: 0 !important;
         overflow: hidden !important;
     }
-/*𝐂𝐇𝐀𝐓-𝐇𝐄𝐀𝐃𝐄𝐑 + 𝐂𝐇𝐀𝐓-𝐂𝐎𝐍𝐓𝐄𝐍𝐓 + 𝐂𝐇𝐀𝐓-𝐅𝐎𝐎𝐓𝐄𝐑*/
-    #app>div>div>div>div>div>header, #main>div>div>div>div, #main>footer {max-width: 100vw;}
-/*𝐂𝐇𝐀𝐓*/
+/*𝐂𝐇𝐀𝐓 needed to show and fit-container when narrow*/
     #app>div>div>div>div:has(div>header){
         flex: 0 0 100% !important;
         max-width: 100% !important;
@@ -129,7 +129,7 @@
       svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', 'M 48 23 H 15 C 14 23 13 22 14 21 L 23 12 C 25 10 25 10 23 8 L 23 8 C 21 6 21 6 19 8 L 4 24 C 2 26 2 26 4 28 L 19 44 C 21 46 21 46 23 44 L 23 44 C 25 42 25 42 23 40 L 14 31 C 13 30 14 29 15 29 H 48 C 50 29 50 29 50 27 V 25 C 50 23 50 23 48 23 Z');
+      path.setAttribute('d', 'M48 23H15Q12 23 14 21L23 12Q25 10 23 8L23 8Q21 6 19 8L4 24Q2 26 4 28L19 44Q21 46 23 44L23 44Q25 42 23 40L14 31Q12 29 15 29H48Q50 29 50 27V25Q50 23 48 23Z');
 
       svg.appendChild(path);
       btn.appendChild(svg);
