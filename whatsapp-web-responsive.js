@@ -57,7 +57,7 @@ div[role="tablist"] {
 
 /* ℹ️ CHAT-GRANDPARENT ✅ Prevent extra space with 'fit-content' */
 #app>div>div>div>div:has(div>#side) {
-    min-width: fit-content; 
+    min-width: fit-content;
     max-width: 100vw;
 }
 
@@ -66,17 +66,19 @@ div[role="tablist"] {
     min-width: 0;
     max-width: 0;
 }
-t
+
 /* ℹ️ CHAT-LIST (2 els) when CHAT-OPEN doesn't exist ✅ Fill space */
 #app:not(:has(#main))>div>div>div>div>div>header,
 #app:not(:has(#main))>div>div>div>div>div>#side {
     width: 100vw;
+    visibility: visible;
 }
 
 /* ℹ️ CHAT-LIST (2 els) when CHAT-OPEN exists ✅ Hide (to show chat) */
 #app:has(#main)>div>div>div>div>div>header,
 #app:has(#main)>div>div>div>div>div>#side {
     width: 0;
+    visibility: hidden;
 }
 
 /* ℹ️ CHAT-OPEN ✅ Already fills space, don't change */
@@ -94,28 +96,16 @@ t
     document.head.appendChild(style);
   }
 
-  function debugAndLogUnread() {
-    const spans = Array.from(document.querySelectorAll('span'));
-    const unreadBadges = spans.filter(el => {
-      const style = window.getComputedStyle(el);
-      const bg = style.backgroundColor;
-      const name = el.getAttribute('aria-label') || el.getAttribute('name') || '';
-      return (bg === 'rgb(0, 168, 132)' || bg === 'rgb(37, 211, 102)') &&
-             (name.trim().toLowerCase() === 'da leggere' || name.toLowerCase().includes('non lett') ||
-              name.toLowerCase() === 'unread' || name.toLowerCase().includes('unread'));
-    });
-    console.log('[Unread Debug]', unreadBadges.length, unreadBadges);
-  }
-
   function injectEscButton() {
-    if (window.innerWidth >= 748) return;
+    if (window.innerWidth >= 750) return;
 
-    const target = document.querySelector('#app>div>div>div>div>div>header');
+    const target = document.querySelector('#main>header:has(div>div>img)');
     if (target && !target.querySelector('.esc-button')) {
       const btn = document.createElement('button');
       btn.className = 'esc-button';
 
-      const nativeBtn = document.querySelector('button[aria-label="Menu"], button[aria-label="Cerca…"]');
+      // Copy style classes from native button if available
+      const nativeBtn = document.querySelector('button[aria-label="Menu"], button[aria-label*="Cerca"]');
       if (nativeBtn) {
         btn.className = nativeBtn.className + ' esc-button';
       }
@@ -129,7 +119,7 @@ t
       svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', 'M48 23H15Q12 23 14 21L23 12Q25 10 23 8L23 8Q21 6 19 8L4 24Q2 26 4 28L19 44Q21 46 23 44L23 44Q25 42 23 40L14 31Q12 29 15 29H48Q50 29 50 27V25Q50 23 48 23Z');
+      path.setAttribute('d', 'M45 23h-33q-3 0-1-2l9-9q2-2 0-4l0 0q-2-2-4 0l-15 16q-2 2 0 4l15 16q2 2 4 0l0 0q2-2 0-4l-9-9q-2-2 1-2h33q2 0 2-2v-2q0-2-2-2z');
 
       svg.appendChild(path);
       btn.appendChild(svg);
@@ -149,8 +139,6 @@ t
 
   setTimeout(() => {
     injectCSS();
-    debugAndLogUnread();
-    setInterval(debugAndLogUnread, 1000);
-    setInterval(injectEscButton, 1000);
+    setInterval(injectEscButton, 500);
   }, 3000);
 })();
