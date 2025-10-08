@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://web.whatsapp.com/*
 // @grant       none
-// @version     1.3
+// @version     1.4 (2025-10-07 layout change)
 // @author      DavidBevi
 // @description Improves WA web on narrow windows, displaying
 //              either chat-list or a conversation, one at a time.
@@ -17,83 +17,79 @@
   function injectCSS() {
     const style = document.createElement('style');
     style.innerHTML = `
-/*#########################################################################################
-#  ELEMENTS              CSS selectors                                                    #
-#-----------------------------------------------------------------------------------------#
-#  CONTAINER             #app>div>div>div:has(header)                                     #
-#    SIDEBAR             #app>div>div>div>header {                                        #
-#    SPLASHSCREEN        #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"])    #
-#    LIST-OF-CHATS       #app>div>div>div>div:has(header>div>div>h1)                      #
-#      CHAT              #app>div>div>div>div:has(div>header)                             #
-#        CHAT-HEADER     #main>header                                                     #
-#        CHAT-CONTENT    #main>div>div>div>div                                            #
-#          EMOJI-PANEL   #expressions-panel-container>span>div                            #
-#        CHAT-FOOTER     #main>footer                                                     #
-#        CHAT-INFO       #app>div>div>div>div:has(span>div>span>div>div>header)           #
-#        CHAT-MEDIA-ROLL #app>div>div>div>div:has(span>div>span>div>header)               #
-#        CHAT-MEDIA-SEND #app>div>div>div>div>div:has(span>div>div>div>div>div>input)     #
-#    CHAT-TABLIST        #side>div[role="tablist"]                                        #
-#########################################################################################*/
+@media (max-width: 750px) { /* ⬇️⬇️⬇️ BEGIN WRAPPING ⬇️⬇️⬇️ */
 
-@media (max-width: 747px) {
-/*𝐏𝐎𝐏𝐔𝐏-𝐀𝐍𝐎𝐓𝐇𝐄𝐑-𝐈𝐍𝐒𝐓𝐀𝐍𝐂𝐄*/
-#app>div>div:nth-child(2)>div>div>div {place-self:start; width:100vw;}
-/*𝐁𝐎𝐑𝐃𝐄𝐑𝐄𝐃 remove border*/
-    #app>div>div>div>div>div:has(span) {border-left: 0 !important; max-width: 100vw !important;}
-/*𝐌𝐀𝐈𝐍 + 𝐌𝐀𝐈𝐍>𝐃𝐈𝐕 cap width*/
-    #main, #main>div {max-width: 100vw !important; margin:0 !important; overflow-x:hidden;}
-/*𝐂𝐎𝐍𝐓𝐀𝐈𝐍𝐄𝐑*/
-    #app>div>div>div:has(header) {
-        display: flex! important;
-        overflow: hidden! important;
-        min-width: fit-content !important;
-        max-width: 100vw;
-    }
-/*𝐒𝐏𝐋𝐀𝐒𝐇𝐒𝐂𝐑𝐄𝐄𝐍*/
-    #app>div>div>div>div:has(div>div>div>span[data-icon*="logo"]) {max-width: 0%;}
-/*𝐒𝐈𝐃𝐄𝐁𝐀𝐑*/
-    #app>div>div>div>header, #app>div>div>div>header * {
-        flex: 0 0 0 !important;
-        width: 0 !important;
-        max-width: 0 !important;
-        min-width: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        border: 0 !important;
-        overflow: hidden !important;
-    }
-/*𝐋𝐈𝐒𝐓-𝐎𝐅-𝐂𝐇𝐀𝐓𝐒 needed to hide when narrow*/
-    #app>div>div>div>div:has(header>div>div>h1){
-        flex: 1 1 100% !important;
-        max-width: none !important;
-        min-width: 0 !important;
-        overflow: hidden !important;
-    }
-/*𝐂𝐇𝐀𝐓 needed to show and fit-container when narrow*/
-    #app>div>div>div>div:has(div>header){
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-        min-width: 0% !important;
-        overflow: hidden! important;
-    }
-/*𝐂𝐇𝐀𝐓-𝐈𝐍𝐅𝐎 + 𝐂𝐇𝐀𝐓-𝐌𝐄𝐃𝐈𝐀-𝐒𝐄𝐍𝐃 + 𝐂𝐇𝐀𝐓-𝐌𝐄𝐃𝐈𝐀-𝐑𝐎𝐋𝐋*/
-    #app>div>div>div>div:has(span>div>span>div>div>header),
-    #app>div>div>div>div>div:has(span>div>div>div>div>div>input),
-    #app>div>div>div>div:has(span>div>span>div>header) {
-        position: absolute;
-        width: 99vw;
-    }
-/*𝐄𝐌𝐎𝐉𝐈-𝐏𝐀𝐍𝐄𝐋*/
-    #expressions-panel-container>span>div {left: 0px !important; max-width: 100% !important;}
-/*𝐄𝐒𝐂-𝐁𝐔𝐓𝐓𝐎𝐍 (via js injection)*/
-    .esc-button {
-        margin-left: -8px !important;
-        padding-right: 16px !important;
-    }
+/* ℹ️ SIDEBAR ✅ Hide to make space */
+#app>div>div>div>div>header {
+    flex: 0 0 0;
+    max-width: 0;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow: hidden;
 }
 
-/*𝐎𝐏𝐓𝐈𝐎𝐍𝐀𝐋𝐒*/
-/*𝐂𝐇𝐀𝐓-𝐓𝐀𝐁𝐋𝐈𝐒𝐓*/ #side>div[role="tablist"] {visibility:hidden;height:0px;padding:0px;}
+/* ℹ️ CHAT-LIST'S-TABs ✅ Hide to make space */
+div[role="tablist"] {
+    visibility: hidden;
+    height: 0px;
+    padding: 0px;
+}
+
+/* ℹ️ NO-CHAT-SELECTED (+children) ✅ Hide to make space */
+#app>div>div>div>div>div:has(div>div>div>span[data-icon*="start"]),
+#app>div>div>div>div>div:has(div>div>div>span[data-icon*="start"]) * {
+    width: 0;
+    visibility: hidden;
+}
+
+/* ℹ️ EMOJI-PANEL ✅ Fill (prevent overflow) */
+#expressions-panel-container>span>div {
+    left: 0px;
+    max-width: 100%;
+}
+
+/* ℹ️ UNWANTED-BORDER ✅ Hide (applies to Div and his brother) */
+#app>div>div>div>div>div>div:has(>div:only-child>span:only-child) {
+    border: none;
+}
+
+/* ℹ️ CHAT-GRANDPARENT ✅ Prevent extra space with 'fit-content' */
+#app>div>div>div>div:has(div>#side) {
+    min-width: fit-content; 
+    max-width: 100vw;
+}
+
+/* ℹ️ CHAT-PARENT ✅ Hide unwanted spacer */
+#app>div>div>div>div>div:has(#side) {
+    min-width: 0;
+    max-width: 0;
+}
+t
+/* ℹ️ CHAT-LIST (2 els) when CHAT-OPEN doesn't exist ✅ Fill space */
+#app:not(:has(#main))>div>div>div>div>div>header,
+#app:not(:has(#main))>div>div>div>div>div>#side {
+    width: 100vw;
+}
+
+/* ℹ️ CHAT-LIST (2 els) when CHAT-OPEN exists ✅ Hide (to show chat) */
+#app:has(#main)>div>div>div>div>div>header,
+#app:has(#main)>div>div>div>div>div>#side {
+    width: 0;
+}
+
+/* ℹ️ CHAT-OPEN ✅ Already fills space, don't change */
+#app>div>div>div>div>div>#main {
+}
+
+/* ℹ️ INFO-PANEL ✅ Fix width (bigger but capped) */
+#app>div>div>div>div>div:has(span>div>span>div>div) {
+    width: 350pt;
+    max-width: 85vw;
+}
+
+} /* ⬆️⬆️⬆️ END WRAPPING ⬆️⬆️⬆️ */
 `;
     document.head.appendChild(style);
   }
